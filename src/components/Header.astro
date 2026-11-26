@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import logo from '../assets/uploads/2025-09-ddw-logo-white.png';
+import { nav, site } from '../data/site';
+---
+<header class="sticky top-0 z-40 border-b border-white/10 bg-navy-900 text-white">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-navy-900">Skip to content</a>
+  <div class="container-x flex h-16 items-center justify-between gap-6 lg:h-20">
+    <a href="/" class="shrink-0" aria-label={`${site.name} home`}>
+      <Image src={logo} alt="" width={150} class="h-9 w-auto lg:h-11" loading="eager" />
+    </a>
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-7 text-[15px] font-semibold">
+        {nav.map((n) => (
+          <li><a href={n.href} class="text-white/85 transition hover:text-brand">{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href={site.phoneHref} class="hidden items-center gap-2 text-sm font-semibold text-white/85 hover:text-white xl:flex">
+        <Icon name="phone" class="size-4 text-brand" /> {site.phone}
+      </a>
+      <a href="/#contact" class="btn-primary hidden !px-5 !py-2.5 text-sm sm:inline-flex">Get a Quote</a>
+      <button type="button" id="menu-btn" class="rounded-lg p-2 lg:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+        <Icon name="menu" class="size-7" />
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-nav" aria-label="Mobile" class="hidden border-t border-white/10 lg:hidden">
+    <ul class="container-x flex flex-col py-3 text-lg font-semibold">
+      {nav.map((n) => (<li><a href={n.href} class="block py-2.5 text-white/90 hover:text-brand">{n.label}</a></li>))}
+      <li class="pt-3"><a href="/#contact" class="btn-primary w-full">Get a Quote</a></li>
+    </ul>
+  </nav>
+</header>
+<script>
+  const btn = document.getElementById('menu-btn')!;
+  const menu = document.getElementById('mobile-nav')!;
+  const set = (open: boolean) => {
+    menu.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  btn.addEventListener('click', () => set(menu.classList.contains('hidden')));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+</script>

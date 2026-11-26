@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import logo from '../assets/uploads/2025-09-ddw-logo-white.png';
+import { nav, site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="bg-navy-950 text-white/80">
+  <div class="container-x grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <Image src={logo} alt={site.name} width={170} class="h-11 w-auto" />
+      <p class="mt-4 max-w-sm text-sm leading-relaxed">Affordable, professional websites for small businesses, churches, and nonprofits across Central Ohio and beyond.</p>
+    </div>
+    <div>
+      <h2 class="font-display text-lg font-semibold text-white">Explore</h2>
+      <ul class="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+        {nav.map((n) => (<li><a href={n.href} class="hover:text-brand">{n.label}</a></li>))}
+        <li><a href="/#contact" class="hover:text-brand">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="font-display text-lg font-semibold text-white">Contact</h2>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li><a href={`mailto:${site.email}`} class="inline-flex items-center gap-2 hover:text-brand"><Icon name="mail" class="size-4 text-brand" />{site.email}</a></li>
+        <li><a href={site.phoneHref} class="inline-flex items-center gap-2 hover:text-brand"><Icon name="phone" class="size-4 text-brand" />{site.phone}</a></li>
+        <li class="inline-flex items-center gap-2"><Icon name="pin" class="size-4 text-brand" />{site.location}</li>
+        <li><a href={site.facebook} class="inline-flex items-center gap-2 hover:text-brand" rel="noopener"><Icon name="facebook" class="size-4 text-brand" />Follow us {site.facebookHandle}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container-x flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p class="flex gap-4">
+        <a href="/privacy-policy/" class="hover:text-brand">Privacy Policy</a>
+        <a href="/terms-of-service/" class="hover:text-brand">Terms of Service</a>
+        <button type="button" data-cookie-prefs class="hover:text-brand">Cookie preferences</button>
+      </p>
+    </div>
+  </div>
+</footer>

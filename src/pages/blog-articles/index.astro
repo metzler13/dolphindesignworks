@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title="Blog Articles | Small Business Web Design Columbus | Dolphin Design Works" description="Practical web design, website maintenance, and online-presence advice for Ohio small businesses, churches, and nonprofits.">
+  <section class="bg-navy-900 py-16 text-white sm:py-20">
+    <div class="container-x">
+      <p class="text-sm font-bold uppercase tracking-[0.18em] text-brand">Articles</p>
+      <h1 class="mt-2 text-4xl font-semibold sm:text-5xl">Blog articles</h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/75">Practical advice on web design, website maintenance, and growing your small business online.</p>
+    </div>
+  </section>
+  <section class="py-16 sm:py-20">
+    <div class="container-x grid gap-6 md:grid-cols-2">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,90 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@import '@fontsource-variable/oswald';
+@import '@fontsource-variable/nunito';
+
+/* Brand: navy #0f2b59 + orange #f76f00 (from the original site). */
+@theme {
+  --font-sans: 'Nunito Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Oswald Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy-950: #071630;
+  --color-navy-900: #0b2148;
+  --color-navy-800: #0f2b59;
+  --color-navy-700: #1a3d78;
+  --color-navy-100: #e3eaf6;
+  --color-navy-50: #f2f5fb;
+
+  --color-brand: #f76f00;       /* fills, accents, buttons (navy text on top) */
+  --color-brand-ink: #b84f00;   /* orange text on light backgrounds (AA contrast) */
+  --color-brand-soft: #fff1e6;
+
+  /* Semantic surfaces, swapped for dark mode below */
+  --color-bg: #ffffff;
+  --color-bg-muted: #f6f7fb;
+  --color-card: #ffffff;
+  --color-fg: #16202f;
+  --color-fg-muted: #4a5568;
+  --color-line: #e2e6ee;
+  --color-accent-ink: var(--color-brand-ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0a1426;
+    --color-bg-muted: #0e1b33;
+    --color-card: #12223f;
+    --color-fg: #e8edf5;
+    --color-fg-muted: #a9b4c7;
+    --color-line: #22355a;
+    --color-accent-ink: #ff9a47;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    color-scheme: light dark;
+  }
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+}
+
+@utility container-x {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-bold transition;
+  }
+@utility btn-primary {
+    @apply btn bg-brand text-navy-950 hover:bg-[#ff8a26] shadow-sm shadow-brand/30;
+  }
+@utility btn-ghost {
+    @apply btn border border-white/30 text-white hover:bg-white/10;
+  }
+@utility eyebrow {
+    @apply text-sm font-bold uppercase tracking-[0.18em] text-accent-ink;
+  }
+@utility section-title {
+    @apply text-3xl sm:text-4xl font-semibold text-navy-800 dark:text-white;
+  }
+@utility card {
+    @apply rounded-2xl border border-line bg-card;
+  }
+@utility field {
+    @apply w-full rounded-xl border border-line bg-bg px-4 py-3 text-fg placeholder:text-fg-muted/70 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30;
+  }

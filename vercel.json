@@ -1,0 +1,88 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/feed",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/feed/",
+      "destination": "/rss.xml",
+      "permanent": true
+    },
+    {
+      "source": "/category/:slug*",
+      "destination": "/blog-articles/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug*",
+      "destination": "/blog-articles/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:slug*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "permanent": true
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "p",
+          "value": "373193"
+        }
+      ],
+      "destination": "/web-design-services-for-ohio-small-businesses/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "p",
+          "value": "373188"
+        }
+      ],
+      "destination": "/website-maintenance-services-a-practical-guide-for-small-businesses/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "p",
+          "value": "373121"
+        }
+      ],
+      "destination": "/building-a-professional-small-business-website-in-ohio/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "p",
+          "value": "373117"
+        }
+      ],
+      "destination": "/the-critical-work-your-website-needs-after-the-launch/",
+      "permanent": true
+    }
+  ]
+}

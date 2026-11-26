@@ -1,0 +1,44 @@
+---
+// Loads Google Analytics 4 and the Meta Pixel only after the visitor accepts,
+// matching the consent gate the WordPress site had through SEOPress.
+import { site } from '../data/site';
+const { ga4, metaPixel } = site.analytics;
+---
+<div id="consent" hidden class="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-3xl rounded-2xl border border-line bg-card p-5 text-fg shadow-2xl sm:inset-x-6" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <p class="text-sm leading-relaxed">This site uses cookies for analytics and advertising. You can accept or decline them. Learn more in our <a href="/privacy-policy/" class="font-semibold text-accent-ink underline">privacy policy</a>.</p>
+  <div class="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
+    <button type="button" data-consent="denied" class="btn border border-line !py-2.5 text-sm hover:bg-bg-muted">Decline</button>
+    <button type="button" data-consent="granted" class="btn-primary !py-2.5 text-sm">Accept</button>
+  </div>
+</div>
+<script is:inline define:vars={{ ga4, metaPixel }}>
+  (function () {
+    var KEY = 'ddw-consent';
+    var box = document.getElementById('consent');
+    function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function put(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+    function load() {
+      if (window.__ddwTrackers) return; window.__ddwTrackers = true;
+      if (ga4) {
+        var s = document.createElement('script'); s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4; document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date()); gtag('config', ga4);
+      }
+      if (metaPixel) {
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', metaPixel); fbq('track', 'PageView');
+      }
+    }
+    var c = get();
+    if (c === 'granted') load(); else if (!c) box.hidden = false;
+    box.addEventListener('click', function (e) {
+      var v = e.target.closest('[data-consent]'); if (!v) return;
+      v = v.getAttribute('data-consent'); put(v); box.hidden = true; if (v === 'granted') load();
+    });
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-cookie-prefs]')) box.hidden = false;
+    });
+  })();
+</script>
