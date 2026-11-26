@@ -1,10 +1,28 @@
 ---
-// Netlify Forms: Netlify detects this form at deploy time and emails submissions.
-// On another host, set `action` to a Formspree (or similar) endpoint instead.
+// Two ways to receive submissions, chosen by `site.web3formsKey` in src/data/site.ts:
+//  - key set   -> Web3Forms (free, works on Cloudflare Pages or any host; emails each submission)
+//  - key empty -> Netlify Forms (only works when the site is hosted on Netlify)
+import { site } from '../data/site';
+const useWeb3 = site.web3formsKey.trim() !== '';
+const formAttrs = useWeb3
+  ? { action: 'https://api.web3forms.com/submit' }
+  : { action: '/thanks/', 'data-netlify': 'true', 'netlify-honeypot': 'company' };
 ---
-<form name="contact" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="company" class="card space-y-5 p-6 sm:p-8">
-  <input type="hidden" name="form-name" value="contact" />
-  <p class="hidden"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label></p>
+<form name="contact" method="POST" {...formAttrs} id="contact-form" class="card space-y-5 p-6 sm:p-8">
+  {useWeb3 ? (
+    <>
+      <input type="hidden" name="access_key" value={site.web3formsKey} />
+      <input type="hidden" name="subject" value="New website enquiry - Dolphin Design Works" />
+      <input type="hidden" name="from_name" value="dolphindesignworks.com" />
+      <input type="hidden" name="redirect" value={`${site.url}/thanks/`} data-redirect />
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+    </>
+  ) : (
+    <>
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="hidden"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label></p>
+    </>
+  )}
   <h3 class="text-2xl font-semibold text-navy-800 dark:text-white">Send us a message</h3>
   <div class="grid gap-5 sm:grid-cols-2">
     <label class="block"><span class="mb-1.5 block text-sm font-semibold">First name <span class="text-accent-ink">*</span></span>
@@ -22,3 +40,8 @@
     <textarea name="message" required rows="5" class="field" placeholder="Tell us about your project, goals, timeline, and any specific requirements…"></textarea></label>
   <button type="submit" class="btn-primary w-full sm:w-auto">Send message</button>
 </form>
+<script>
+  // Send visitors back to the thank-you page on whichever address they're viewing (preview or live domain).
+  const r = document.querySelector<HTMLInputElement>('#contact-form [data-redirect]');
+  if (r) r.value = `${location.origin}/thanks/`;
+</script>

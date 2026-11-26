@@ -2,6 +2,16 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/hero-header-v6-2/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/",
+      "destination": "/blog-articles/",
+      "permanent": true
+    },
+    {
       "source": "/feed",
       "destination": "/rss.xml",
       "permanent": true

@@ -40,13 +40,22 @@ Set `draft: true` to hide a post. Commit and push, and the host rebuilds the sit
 
 ## Deploying
 
-**Netlify (recommended: the contact form works with no extra setup)**
-1. In Netlify, choose *Add new site → Import from Git* and pick this repo. The build command is `npm run build` and the publish directory is `dist`.
-2. Under *Forms*, enable form detection. Under *Forms → Notifications*, add an email notification to rick@dolphindesignworks.com.
-3. Under *Domain management*, add `dolphindesignworks.com`, then update DNS at the registrar as Netlify instructs.
-4. `public/_redirects` sends old WordPress URLs (`/feed/`, `/category/...`, `/?p=123`) to their new homes with 301s.
+### Cloudflare Pages
+1. In the Cloudflare dashboard, go to *Workers & Pages → Create → Pages → Connect to Git* and pick this repo.
+2. Framework preset: **Astro**. Build command `npm run build`, output directory `dist`. Add the environment variable `NODE_VERSION` = `22`.
+3. Contact form: get a free access key at web3forms.com (enter rick@dolphindesignworks.com and the key arrives by email). Paste it into `web3formsKey` in `src/data/site.ts`, then commit.
+4. Under *Custom domains*, add `dolphindesignworks.com`. This is easiest when the domain's DNS is already on Cloudflare.
 
-**Vercel**: import the repo. `vercel.json` holds the same redirects. Netlify Forms won't work there, so point the form's `action` in `src/components/ContactForm.astro` at a Formspree endpoint.
+### Netlify
+1. *Add new project → Import an existing project*, then pick this repo. The build settings are detected automatically.
+2. Leave `web3formsKey` empty and Netlify Forms is used. Enable form detection and add an email notification under *Forms*. You can also use Web3Forms here.
+3. Add the domain under *Domain management*.
+
+### Vercel
+Import the repo. Redirects are in `vercel.json`. Use a Web3Forms key for the form.
+
+### Redirects
+`public/_redirects` sends old WordPress URLs (`/feed/`, `/category/...`, `/blog/`) to their new pages with 301s. Cloudflare Pages and Netlify both read it. Old `/?p=123` short links are redirected by a small script on the homepage, so they work on any host.
 
 ## Analytics
 

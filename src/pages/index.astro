@@ -10,9 +10,16 @@ import { getCollection } from 'astro:content';
 const latest = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+// Old WordPress short links (/?p=123, /?page_id=123) -> new URLs, handled in the browser so it works on any host.
+const allPosts = await getCollection('blog');
+const legacyIds: Record<string, string> = { 3: '/privacy-policy/', 373040: '/terms-of-service/', 373131: '/blog-articles/' };
+for (const p of allPosts) if (p.data.wpId) legacyIds[p.data.wpId] = `/${p.id}/`;
 const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 ---
 <BaseLayout>
+  <script is:inline define:vars={{ legacyIds }}>
+    (function () { var q = new URLSearchParams(location.search); var id = q.get('p') || q.get('page_id'); if (id && legacyIds[id]) location.replace(legacyIds[id]); })();
+  </script>
   <!-- Hero -->
   <section class="relative overflow-hidden bg-navy-900 text-white">
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_85%_-10%,rgba(247,111,0,0.28),transparent_60%),radial-gradient(40rem_30rem_at_-10%_110%,rgba(26,61,120,0.9),transparent_60%)]"></div>

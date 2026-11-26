@@ -25,6 +25,9 @@ export const site = {
   location: 'Pickerington, Ohio',
   facebook: 'https://facebook.com/dolphindesign',
   facebookHandle: '@dolphindesign',
+  // Contact form: paste a Web3Forms access key here to use Web3Forms (works on any host, e.g. Cloudflare).
+  // Leave empty to use Netlify Forms instead (only works when hosted on Netlify).
+  web3formsKey: '',
   analytics: {
     ga4: 'G-LV537LZB1M',
     metaPixel: '965510615821434',

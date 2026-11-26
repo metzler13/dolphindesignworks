@@ -1,21 +1,13 @@
-# Netlify redirects (real 301s). Old WordPress URLs -> new Astro URLs.
-/feed/            /rss.xml          301!
-/feed             /rss.xml          301!
-/hero-header-v6-2/ /                301!
-/blog/            /blog-articles/   301!
-/category/*       /blog-articles/   301!
-/tag/*            /blog-articles/   301!
-/author/*         /#who             301!
-/wp-admin/*       /                 301!
-/wp-login.php     /                 301!
-/sitemap.xml      /sitemap-index.xml 301!
-/wp-sitemap.xml   /sitemap-index.xml 301!
-# ?p=ID and ?page_id=ID permalinks
-/  p=373193  /web-design-services-for-ohio-small-businesses/  301!
-/  p=373188  /website-maintenance-services-a-practical-guide-for-small-businesses/  301!
-/  p=373121  /building-a-professional-small-business-website-in-ohio/  301!
-/  p=373117  /the-critical-work-your-website-needs-after-the-launch/  301!
-/  page_id=373131  /blog-articles/  301!
-/  page_id=373040  /terms-of-service/  301!
-/  page_id=3  /privacy-policy/  301!
-/  page_id=99275  /  301!
+# Old WordPress URLs -> new URLs (301). Works on Cloudflare Pages and Netlify.
+# ?p=123 / ?page_id=123 links are handled by a small script on the homepage.
+/feed/              /rss.xml            301
+/feed               /rss.xml            301
+/hero-header-v6-2/  /                   301
+/blog/              /blog-articles/     301
+/category/*         /blog-articles/     301
+/tag/*              /blog-articles/     301
+/author/*           /                   301
+/wp-admin/*         /                   301
+/wp-login.php       /                   301
+/sitemap.xml        /sitemap-index.xml  301
+/wp-sitemap.xml     /sitemap-index.xml  301
