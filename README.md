@@ -40,11 +40,13 @@ Set `draft: true` to hide a post. Commit and push, and the host rebuilds the sit
 
 ## Deploying
 
-### Cloudflare Pages
-1. In the Cloudflare dashboard, go to *Workers & Pages → Create → Pages → Connect to Git* and pick this repo.
-2. Framework preset: **Astro**. Build command `npm run build`, output directory `dist`. Add the environment variable `NODE_VERSION` = `22`.
-3. Contact form: get a free access key at web3forms.com (enter rick@dolphindesignworks.com and the key arrives by email). Paste it into `web3formsKey` in `src/data/site.ts`, then commit.
-4. Under *Custom domains*, add `dolphindesignworks.com`. This is easiest when the domain's DNS is already on Cloudflare.
+### Cloudflare (Workers)
+The site is configured for Cloudflare in `wrangler.jsonc`. It serves the static `dist/` folder, with no server code.
+1. In the Cloudflare dashboard, go to *Workers & Pages → Create → Import a repository* and pick this repo.
+2. Project name: `dolphindesignworks` (must match `name` in `wrangler.jsonc`). Build command `npm run build`. Deploy command `npx wrangler deploy`.
+3. Add the build variable `NODE_VERSION` = `22`, then click Deploy. Every push to `main` redeploys.
+4. Contact form: get a free access key at web3forms.com (enter rick@dolphindesignworks.com and the key arrives by email). Paste it into `web3formsKey` in `src/data/site.ts`, then commit.
+5. Domain: go to *Settings → Domains & Routes → Add → Custom domain* and enter `dolphindesignworks.com`. The domain's DNS must be on Cloudflare.
 
 ### Netlify
 1. *Add new project → Import an existing project*, then pick this repo. The build settings are detected automatically.

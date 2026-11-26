@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Static site on Cloudflare Workers: no Worker code, Cloudflare serves the built files directly.
+  "name": "dolphindesignworks", // must match the project name in the Cloudflare dashboard
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist", // Astro's build output
+    "not_found_handling": "404-page", // unknown URLs get dist/404.html
+    "html_handling": "auto-trailing-slash" // /page and /page/ both work, like the old WordPress URLs
+  }
+}
