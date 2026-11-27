@@ -7,14 +7,10 @@ import { site, heroPoints, services, process, projects, testimonials, whyChoose 
 import headshot from '../assets/uploads/2025-09-rick-headshot-gray-polo-home-office.png';
 import monitor from '../assets/uploads/2025-09-monitor-with-logo.jpg';
 import { getCollection } from 'astro:content';
-const latest = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 // Old WordPress short links (/?p=123, /?page_id=123) -> new URLs, handled in the browser so it works on any host.
 const allPosts = await getCollection('blog');
 const legacyIds: Record<string, string> = { 3: '/privacy-policy/', 373040: '/terms-of-service/', 373131: '/blog-articles/' };
 for (const p of allPosts) if (p.data.wpId) legacyIds[p.data.wpId] = `/${p.id}/`;
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 ---
 <BaseLayout>
   <script is:inline define:vars={{ legacyIds }}>
@@ -174,36 +170,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'n
     </div>
   </section>
 
-  <!-- Latest articles -->
-  {latest.length > 0 && (
-    <section class="bg-bg-muted py-20 sm:py-24">
-      <div class="container-x">
-        <div class="flex items-end justify-between gap-6">
-          <div>
-            <p class="eyebrow">From the blog</p>
-            <h2 class="section-title mt-2">Latest articles</h2>
-          </div>
-          <a href="/blog-articles/" class="hidden font-bold text-accent-ink hover:underline sm:inline-flex sm:items-center sm:gap-2">All articles <Icon name="arrow" class="size-5" /></a>
-        </div>
-        <ul class="mt-10 grid gap-6 md:grid-cols-3">
-          {latest.map((post) => (
-            <li class="card group overflow-hidden">
-              <a href={`/${post.id}/`} class="block">
-                {post.data.heroImage && <Image src={post.data.heroImage} alt="" widths={[400, 640]} sizes="(min-width: 768px) 30vw, 90vw" class="aspect-[16/9] w-full object-cover" />}
-                <div class="p-6">
-                  <p class="text-xs font-bold uppercase tracking-wider text-accent-ink">{fmt(post.data.pubDate)}</p>
-                  <h3 class="mt-2 text-lg font-semibold leading-snug text-navy-800 group-hover:text-accent-ink dark:text-white">{post.data.title}</h3>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
-
   <!-- Contact -->
-  <section id="contact" class="py-20 sm:py-24">
+  <section id="contact" class="bg-bg-muted py-20 sm:py-24">
     <div class="container-x">
       <div class="mx-auto max-w-2xl text-center">
         <p class="eyebrow">Contact</p>

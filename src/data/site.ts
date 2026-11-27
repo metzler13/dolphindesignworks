@@ -40,7 +40,6 @@ export const nav = [
   { label: 'Process', href: '/#how' },
   { label: 'Work', href: '/#projects' },
   { label: 'Testimonials', href: '/#clients' },
-  { label: 'Articles', href: '/blog-articles/' },
 ];
 
 export const heroPoints = ['Local Ohio Business', 'Daily Website Backup', 'Web Hosting Services'];
